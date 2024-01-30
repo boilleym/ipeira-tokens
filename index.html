@@ -28,13 +28,22 @@
   <p>Hello Ipeira!</p>
   <section id="player1">
     <h1>Joueur</h1>
-		<p>Contenu de la bourse : <br> 2 Double Token (violet), 3 Simple Token (jaune), 1 Ancien Token (gris), 3 NullToken (brun), 1 ChaosToken (noir)</p>
-    <p>
-      <button data-name="draw" >Tirer 1 jeton</button>
-			<button data-name="reset" >Remettre les jetons dans la bourse</button>
-    </p>
-		<p id="playmat">
+		<p id="purse">Contenu de la bourse : <br> 
+		<span data-name="Vie">0</span> Vies (orange)  <button data-name="add" data-target="Vie" >+</button><button data-name="remove" data-target="Vie">-</button>, 
+		<span data-name="Voie">0</span> Voies (violet) <button data-name="add" data-target="Voie" >+</button><button data-name="remove" data-target="Voie">-</button>, 
+		<span data-name="Ancien">0</span> Ancien (argent) <button data-name="add" data-target="Ancien" >+</button><button data-name="remove" data-target="Ancien">-</button>, 
+		<span data-name="Ombre">0</span> Ombre (brun)   <button data-name="add" data-target="Ombre" >+</button><button data-name="remove" data-target="Ombre">-</button>, 
+		<span data-name="Corruption">0</span> Corruption (noir) <button data-name="add" data-target="Corruption" >+</button><button data-name="remove" data-target="Corruption">-</button>, 
+		
 		</p>
+		<div id="playzone">
+			<p>
+				<button data-name="draw" >Piocher</button></button><span><span id="drawCounter">1</span> jeton(s)</span><button data-name="drawMore" >+<button data-name="drawLess">-</button>
+				<button data-name="reset" >Remettre tous les jetons dans la bourse</button>
+			</p>
+			<p id="playmat">
+			</p>
+		</div>
   </section>
   <script src="js/app.js"></script>
 
