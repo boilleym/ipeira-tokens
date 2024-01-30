@@ -16,9 +16,7 @@ class Purse {
 		this.shadowCounter = 0;
 		this.corruptionCounter = 0;
 		//init token counters
-		tokenTypes.forEach((token) => {
-			this.updateTokenCounter(token);
-		});
+		initTokenCounter();
     // bind causes a fixed `this` context to be assigned to `onclick2`
     this.onclick = this.onclick.bind(this);
     element.addEventListener("click", this.onclick, false);
@@ -30,23 +28,19 @@ class Purse {
     switch (event.target.dataset.name) {
 			case "add":
 				PurseContent.push(tokenTarget);
-				this.updateTokenCounter(tokenTarget);
+				updateTokenCounter(tokenTarget);
         break;
 			case "remove":
 				if(PurseContent.filter(x => x==tokenTarget).length > 0){
 					console.log(PurseContent);
 					PurseContent.splice(PurseContent.lastIndexOf(tokenTarget), 1);
 					console.log(PurseContent);
-					this.updateTokenCounter(tokenTarget);
+					updateTokenCounter(tokenTarget);
 				}
         break;
 		}
 	}
-	
-	updateTokenCounter(token){
-		let tokenCount = PurseContent.filter(x => x==token).length;
-		document.querySelector("[data-name='"+token+"']").replaceChildren(tokenCount);
-	}
+
 }
 
 
@@ -78,6 +72,7 @@ class Playmat {
 				PurseContent = this.playmatContent.concat(PurseContent);
 				this.playmatContent = [];
 				this.playmatZone.replaceChildren();
+				initTokenCounter();
         break;
 			case "drawMore":
 				this.addTokenDrawn();
@@ -93,14 +88,15 @@ class Playmat {
 	drawTokens() {
 		let maxDraw = Math.min(PurseContent.length, this.howManyTokenDrawn);//stop drawing if purse is empty
 		for (var i=1; i<=maxDraw; i++) {
-			let currentToken = null;
+			let drawnToken = null;
 			PurseContent = PurseContent.sort((a, b) => 0.5 - Math.random());
-			this.currentToken = PurseContent.pop();
-			this.playmatContent.push(this.currentToken);
+			this.drawnToken = PurseContent.pop();
+			this.playmatContent.push(this.drawnToken);
 			this.playmatZone.insertAdjacentHTML(
 				"beforeend",
-				this.currentToken+"<br>",
+				this.drawnToken+"<br>",
 			);
+			updateTokenCounter(this.drawnToken);
 			console.log(PurseContent, this.playmatContent);
 		}
 	}
@@ -121,10 +117,19 @@ class Playmat {
 
 
 
-
-
 window.addEventListener("load", (event) => {
   console.log("La page est complètement chargée");
 	const playmat = new Playmat(document.getElementById("playzone"));
 	const purseManager = new Purse(document.getElementById("purse"));
 });
+
+function initTokenCounter(){
+	tokenTypes.forEach((token) => {
+		updateTokenCounter(token);
+	});
+}
+
+function updateTokenCounter(token){
+	let tokenCount = PurseContent.filter(x => x==token).length;
+	document.querySelector("[data-name='"+token+"']").replaceChildren(tokenCount);
+}
